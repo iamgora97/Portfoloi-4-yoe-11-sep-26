@@ -656,7 +656,9 @@ body::before {
 }
 
 .menu-toggle::before {
-  content: "⋮";
+  content: "☰";
+  font-size: 24px;
+  line-height: 1;
 
   color: #ffffff;
 
