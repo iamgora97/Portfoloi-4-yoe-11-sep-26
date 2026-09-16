@@ -1,6 +1,6 @@
 /* =========================================================
-   GOUROB NANDI — PORTFOLIO
-   V2.2 — PREMIUM BLUE / CYAN / INDIGO
+   GOUROB NANDI PORTFOLIO
+   V2.3 — PREMIUM BLUE / CYAN / INDIGO
    COMPLETE STYLESHEET
 ========================================================= */
 
@@ -10,20 +10,13 @@
 ========================================================= */
 
 :root {
-
-  /* ---------- Background ---------- */
-
   --bg: #020817;
   --bg-2: #061329;
   --bg-3: #081a35;
 
-  /* ---------- Surfaces ---------- */
-
   --surface: rgba(8, 27, 57, 0.68);
   --surface-2: rgba(10, 34, 69, 0.78);
   --surface-3: rgba(13, 42, 82, 0.86);
-
-  /* ---------- Brand ---------- */
 
   --blue: #328cff;
   --blue-dark: #1769d8;
@@ -35,12 +28,8 @@
   --violet: #8067ff;
   --purple: #a66cff;
 
-  /* ---------- Supporting ---------- */
-
   --green: #45e5b1;
   --orange: #ffb86b;
-
-  /* ---------- Text ---------- */
 
   --white: #ffffff;
   --text: #e9f3ff;
@@ -48,13 +37,9 @@
   --muted: #8299b7;
   --muted-light: #9db2cc;
 
-  /* ---------- Borders ---------- */
-
   --border: rgba(110, 190, 255, 0.14);
   --border-light: rgba(140, 200, 255, 0.09);
   --border-hover: rgba(74, 208, 255, 0.42);
-
-  /* ---------- Gradients ---------- */
 
   --gradient-main:
     linear-gradient(
@@ -80,8 +65,6 @@
       rgba(128, 103, 255, 0.09)
     );
 
-  /* ---------- Shadows ---------- */
-
   --shadow:
     0 25px 70px rgba(0, 0, 0, 0.28);
 
@@ -90,8 +73,6 @@
 
   --shadow-blue:
     0 25px 70px rgba(35, 136, 255, 0.14);
-
-  /* ---------- Layout ---------- */
 
   --max-width: 1180px;
   --nav-height: 72px;
@@ -117,7 +98,6 @@ html {
   padding: 0;
 
   scroll-behavior: smooth;
-
   scroll-padding-top: 95px;
 }
 
@@ -149,25 +129,21 @@ body {
       rgba(50, 140, 255, 0.16),
       transparent 29%
     ),
-
     radial-gradient(
       ellipse at 88% 10%,
       rgba(128, 103, 255, 0.12),
       transparent 27%
     ),
-
     radial-gradient(
       ellipse at 84% 65%,
       rgba(32, 228, 255, 0.065),
       transparent 26%
     ),
-
     radial-gradient(
       ellipse at 18% 90%,
       rgba(128, 103, 255, 0.06),
       transparent 31%
     ),
-
     linear-gradient(
       145deg,
       #020817 0%,
@@ -209,9 +185,7 @@ ol {
 
 ::selection {
   color: #ffffff;
-
-  background:
-    rgba(32, 228, 255, 0.28);
+  background: rgba(32, 228, 255, 0.28);
 }
 
 
@@ -250,7 +224,7 @@ ol {
 
 
 /* =========================================================
-   04. TOP SCROLL INDICATOR
+   04. SCROLL PROGRESS
 ========================================================= */
 
 body::before {
@@ -357,7 +331,7 @@ body::before {
 
 
 /* =========================================================
-   06. CONTAINER
+   06. GLOBAL CONTAINER
 ========================================================= */
 
 .container {
@@ -372,7 +346,7 @@ body::before {
 
 
 /* =========================================================
-   07. NAVIGATION
+   07. NAVBAR
 ========================================================= */
 
 .navbar {
@@ -416,7 +390,7 @@ body::before {
 
 .navbar.scrolled {
   background:
-    rgba(2, 8, 23, 0.9);
+    rgba(2, 8, 23, 0.90);
 
   border-bottom:
     1px solid
@@ -438,8 +412,7 @@ body::before {
   width: 180px;
   height: 1px;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   background:
     linear-gradient(
@@ -526,7 +499,6 @@ body::before {
   box-shadow:
     0 8px 25px
     rgba(50, 140, 255, 0.25),
-
     0 0 22px
     rgba(32, 228, 255, 0.07);
 }
@@ -545,8 +517,7 @@ body::before {
   background:
     rgba(255, 255, 255, 0.2);
 
-  transform:
-    rotate(-35deg);
+  transform: rotate(-35deg);
 
   filter: blur(5px);
 }
@@ -566,7 +537,7 @@ body::before {
 
 
 /* =========================================================
-   09. DESKTOP NAV LINKS
+   09. DESKTOP NAVIGATION
 ========================================================= */
 
 .nav-links {
@@ -580,7 +551,7 @@ body::before {
 
   border:
     1px solid
-    rgba(120, 170, 240, 0.1);
+    rgba(120, 170, 240, 0.10);
 
   border-radius: 14px;
 
@@ -600,7 +571,7 @@ body::before {
   border-radius: 9px;
 
   color:
-    rgba(210, 225, 244, 0.7);
+    rgba(210, 225, 244, 0.70);
 
   font-size: 0.78rem;
   font-weight: 650;
@@ -651,11 +622,15 @@ body::before {
 .menu-toggle {
   display: none;
 
+  position: relative;
+
   width: 40px;
   height: 40px;
 
   align-items: center;
   justify-content: center;
+
+  padding: 0;
 
   border:
     1px solid
@@ -666,11 +641,51 @@ body::before {
   background:
     linear-gradient(
       135deg,
-      rgba(50, 140, 255, 0.08),
-      rgba(128, 103, 255, 0.07)
+      rgba(50, 140, 255, 0.09),
+      rgba(128, 103, 255, 0.08)
     );
 
+  color: transparent;
+
+  font-size: 0;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.menu-toggle::before {
+  content: "⋮";
+
   color: #ffffff;
+
+  font-size: 25px;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  transform:
+    translateY(-1px);
+}
+
+/* Hide existing hamburger SVG/span if present */
+.menu-toggle > * {
+  display: none !important;
+}
+
+.menu-toggle:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(50, 140, 255, 0.16),
+      rgba(32, 228, 255, 0.06),
+      rgba(128, 103, 255, 0.13)
+    );
+
+  border-color:
+    rgba(100, 190, 255, 0.30);
 }
 
 
@@ -702,11 +717,13 @@ body::before {
 
   align-items: center;
 
-  gap: 65px;
+  gap: 80px;
 }
 
 .hero-content {
   max-width: 760px;
+
+  padding-left: 28px;
 }
 
 .hero-kicker {
@@ -738,7 +755,7 @@ body::before {
   font-size: 0.71rem;
   font-weight: 800;
 
-  letter-spacing: 0.1em;
+  letter-spacing: 0.10em;
 
   text-transform: uppercase;
 }
@@ -748,6 +765,8 @@ body::before {
 
   width: 7px;
   height: 7px;
+
+  flex-shrink: 0;
 
   border-radius: 50%;
 
@@ -1341,6 +1360,8 @@ body::before {
   position: relative;
 
   padding: 85px 0;
+
+  min-height: 0 !important;
 }
 
 .section::before {
@@ -1366,7 +1387,7 @@ body::before {
     linear-gradient(
       90deg,
       transparent,
-      rgba(32, 228, 255, 0.1),
+      rgba(32, 228, 255, 0.10),
       rgba(128, 103, 255, 0.09),
       transparent
     );
@@ -1597,30 +1618,22 @@ body::before {
 
   box-shadow:
     0 24px 55px
-    rgba(0, 0, 0, 0.2);
+    rgba(0, 0, 0, 0.20);
 }
 
 .focus-card:hover::before {
   opacity: 1;
 }
 
-.focus-number {
-  margin: 0 0 15px;
-
-  color: var(--cyan);
-
-  font-size: 1.55rem;
-
-  line-height: 1;
-}
-
 .focus-card h3 {
-  margin: 0 0 9px;
+  margin: 0 0 10px;
 
   color: #ffffff;
 
   font-size: 1.02rem;
   font-weight: 750;
+
+  line-height: 1.3;
 }
 
 .focus-card p {
@@ -1633,9 +1646,53 @@ body::before {
   line-height: 1.75;
 }
 
+.focus-number {
+  margin: 0 0 15px;
+
+  color: var(--cyan);
+
+  font-size: 1.55rem;
+
+  line-height: 1;
+}
+
 
 /* =========================================================
-   20. GENERIC CARDS
+   20. FOCUS ICON / EMOJI SPACING
+========================================================= */
+
+.focus-card .focus-icon,
+.focus-card .icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border:
+    1px solid
+    rgba(100, 190, 255, 0.12);
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(50, 140, 255, 0.09),
+      rgba(32, 228, 255, 0.035),
+      rgba(128, 103, 255, 0.07)
+    );
+
+  font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   21. GENERIC CARDS
 ========================================================= */
 
 .card {
@@ -1727,7 +1784,7 @@ body::before {
 
     linear-gradient(
       145deg,
-      rgba(35, 136, 255, 0.1),
+      rgba(35, 136, 255, 0.10),
       rgba(25, 217, 255, 0.025),
       rgba(128, 103, 255, 0.055)
     ),
@@ -1736,7 +1793,7 @@ body::before {
 
   box-shadow:
     0 24px 55px
-    rgba(0, 0, 0, 0.2);
+    rgba(0, 0, 0, 0.20);
 }
 
 .card:hover::before {
@@ -1794,7 +1851,7 @@ body::before {
 
 
 /* =========================================================
-   21. ABOUT
+   22. ABOUT
 ========================================================= */
 
 .about-grid {
@@ -1872,7 +1929,7 @@ body::before {
     rgba(35, 136, 255, 0.23),
 
     0 5px 25px
-    rgba(128, 103, 255, 0.1);
+    rgba(128, 103, 255, 0.10);
 }
 
 .about-panel h3 {
@@ -1972,7 +2029,7 @@ body::before {
 
 
 /* =========================================================
-   22. WORK WITH
+   23. WORK WITH
 ========================================================= */
 
 .work-card {
@@ -1985,7 +2042,7 @@ body::before {
 
 
 /* =========================================================
-   23. SKILLS
+   24. SKILLS
 ========================================================= */
 
 .skills-layout {
@@ -2076,12 +2133,12 @@ body::before {
     );
 
   border-color:
-    rgba(90, 200, 255, 0.3);
+    rgba(90, 200, 255, 0.30);
 }
 
 
 /* =========================================================
-   24. EXPERIENCE
+   25. EXPERIENCE
 ========================================================= */
 
 .experience-list {
@@ -2108,7 +2165,7 @@ body::before {
     linear-gradient(
       180deg,
       rgba(32, 228, 255, 0.55),
-      rgba(128, 103, 255, 0.2),
+      rgba(128, 103, 255, 0.20),
       rgba(35, 136, 255, 0.03)
     );
 }
@@ -2191,7 +2248,7 @@ body::before {
 
   box-shadow:
     0 22px 55px
-    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.20),
 
     0 5px 25px
     rgba(50, 140, 255, 0.06);
@@ -2281,7 +2338,7 @@ body::before {
 
 
 /* =========================================================
-   25. ACHIEVEMENTS
+   26. ACHIEVEMENTS
 ========================================================= */
 
 .achievement-card {
@@ -2313,7 +2370,7 @@ body::before {
 
 
 /* =========================================================
-   26. EDUCATION
+   27. EDUCATION
 ========================================================= */
 
 .education-card {
@@ -2357,7 +2414,7 @@ body::before {
 
 
 /* =========================================================
-   27. CERTIFICATIONS
+   28. CERTIFICATIONS
 ========================================================= */
 
 .cert-card {
@@ -2393,7 +2450,7 @@ body::before {
 
 
 /* =========================================================
-   28. LEARNING
+   29. LEARNING
 ========================================================= */
 
 .learning-list {
@@ -2450,7 +2507,7 @@ body::before {
 
 
 /* =========================================================
-   29. CONTACT
+   30. CONTACT
 ========================================================= */
 
 .contact-section {
@@ -2479,13 +2536,13 @@ body::before {
 
     radial-gradient(
       circle at 65% 100%,
-      rgba(128, 103, 255, 0.1),
+      rgba(128, 103, 255, 0.10),
       transparent 28%
     ),
 
     linear-gradient(
       135deg,
-      rgba(35, 136, 255, 0.1),
+      rgba(35, 136, 255, 0.10),
       rgba(8, 27, 58, 0.75)
     );
 
@@ -2609,7 +2666,7 @@ body::before {
 
 
 /* =========================================================
-   30. FOOTER
+   31. FOOTER
 ========================================================= */
 
 footer {
@@ -2622,7 +2679,7 @@ footer {
   background:
     linear-gradient(
       180deg,
-      rgba(2, 8, 23, 0.5),
+      rgba(2, 8, 23, 0.50),
       rgba(2, 5, 15, 0.82)
     );
 
@@ -2673,9 +2730,9 @@ footer {
 
 
 /* =========================================================
-   31. REVEAL ANIMATION
+   32. REVEAL ANIMATION
    IMPORTANT:
-   CONTENT NEVER STAYS INVISIBLE IF JS FAILS
+   CONTENT REMAINS VISIBLE IF JS FAILS
 ========================================================= */
 
 .reveal {
@@ -2704,7 +2761,7 @@ footer {
 
 
 /* =========================================================
-   32. ANIMATION DELAYS
+   33. ANIMATION DELAYS
 ========================================================= */
 
 .delay-1 {
@@ -2725,7 +2782,7 @@ footer {
 
 
 /* =========================================================
-   33. CURSOR GLOW
+   34. CURSOR GLOW
 ========================================================= */
 
 .cursor-glow {
@@ -2763,7 +2820,31 @@ body:hover .cursor-glow {
 
 
 /* =========================================================
-   34. TABLET — 1050PX
+   35. DESKTOP SPACING
+========================================================= */
+
+@media (min-width: 801px) {
+
+  .hero .container,
+  .stats .container,
+  .section .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .nav-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .nav-links {
+    margin-left: auto;
+  }
+}
+
+
+/* =========================================================
+   36. TABLET — 1050PX
 ========================================================= */
 
 @media (max-width: 1050px) {
@@ -2776,6 +2857,8 @@ body:hover .cursor-glow {
 
   .hero-content {
     max-width: 850px;
+
+    padding-left: 20px;
   }
 
   .hero-visual {
@@ -2784,10 +2867,7 @@ body:hover .cursor-glow {
 
   .stats-grid {
     grid-template-columns:
-      repeat(
-        3,
-        1fr
-      );
+      repeat(3, 1fr);
   }
 
   .stat:nth-child(3) {
@@ -2803,10 +2883,7 @@ body:hover .cursor-glow {
   .focus-grid,
   .career-grid {
     grid-template-columns:
-      repeat(
-        3,
-        1fr
-      );
+      repeat(3, 1fr);
   }
 
   .about-grid {
@@ -2823,16 +2900,13 @@ body:hover .cursor-glow {
 
   .grid-4 {
     grid-template-columns:
-      repeat(
-        2,
-        1fr
-      );
+      repeat(2, 1fr);
   }
 }
 
 
 /* =========================================================
-   35. TABLET / MOBILE NAV — 800PX
+   37. MOBILE NAV — 800PX
 ========================================================= */
 
 @media (max-width: 800px) {
@@ -2842,26 +2916,116 @@ body:hover .cursor-glow {
   }
 
   .container,
-  .nav-container,
   .footer-inner {
     width:
       calc(100% - 32px);
   }
 
-  .menu-toggle {
-    display: flex;
+
+  /* -------------------------------------------------------
+     HEADER
+  ------------------------------------------------------- */
+
+  .navbar {
+    height: 68px;
   }
 
+  .nav-container {
+    position: relative;
+
+    width:
+      calc(100% - 28px);
+
+    height: 68px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  /* -------------------------------------------------------
+     CENTER GN
+  ------------------------------------------------------- */
+
+  .navbar .logo {
+    position: absolute;
+
+    left: 50% !important;
+    right: auto !important;
+    top: 50%;
+
+    transform:
+      translate(-50%, -50%);
+
+    margin: 0;
+
+    padding: 0;
+
+    z-index: 5;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+  }
+
+
+  /* -------------------------------------------------------
+     THREE DOT BUTTON
+  ------------------------------------------------------- */
+
+  .menu-toggle {
+    display: flex;
+
+    position: absolute;
+
+    right: 0 !important;
+    left: auto !important;
+    top: 50%;
+
+    transform:
+      translateY(-50%);
+
+    z-index: 20;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE DROPDOWN
+  ------------------------------------------------------- */
+
   .nav-links {
+
     position: fixed;
 
     top:
       calc(
-        var(--nav-height) + 8px
+        var(--nav-height) + 9px
       );
 
-    left: 16px;
-    right: 16px;
+    left: auto;
+
+    right: 14px;
+
+    width:
+      min(
+        245px,
+        calc(100vw - 28px)
+      );
+
+    margin: 0;
+
+    padding: 8px;
 
     display: flex;
 
@@ -2871,13 +3035,11 @@ body:hover .cursor-glow {
 
     gap: 3px;
 
-    padding: 8px;
-
     border:
       1px solid
-      rgba(100, 180, 255, 0.14);
+      rgba(100, 180, 255, 0.16);
 
-    border-radius: 17px;
+    border-radius: 16px;
 
     background:
       linear-gradient(
@@ -2888,58 +3050,158 @@ body:hover .cursor-glow {
       );
 
     backdrop-filter:
-      blur(22px);
+      blur(24px)
+      saturate(150%);
 
     -webkit-backdrop-filter:
-      blur(22px);
+      blur(24px)
+      saturate(150%);
 
     box-shadow:
-      0 25px 70px
-      rgba(0, 0, 0, 0.4);
+      0 25px 65px
+      rgba(0, 0, 0, 0.42),
+
+      0 0 35px
+      rgba(35, 136, 255, 0.08);
 
     opacity: 0;
 
     visibility: hidden;
 
+    pointer-events: none;
+
     transform:
-      translateY(-10px);
+      translateY(-8px)
+      scale(0.97);
+
+    transform-origin:
+      top right;
 
     transition:
-      opacity 0.25s ease,
-      visibility 0.25s ease,
-      transform 0.25s ease;
+      opacity 0.22s ease,
+      visibility 0.22s ease,
+      transform 0.22s ease;
   }
+
+
+  /* OPEN */
 
   .nav-links.open {
     opacity: 1;
 
     visibility: visible;
 
+    pointer-events: auto;
+
     transform:
-      translateY(0);
+      translateY(0)
+      scale(1);
   }
 
+
+  /* Dropdown arrow */
+
+  .nav-links::before {
+    content: "";
+
+    position: absolute;
+
+    top: -6px;
+    right: 14px;
+
+    width: 12px;
+    height: 12px;
+
+    background:
+      rgba(8, 22, 49, 0.98);
+
+    border-left:
+      1px solid
+      rgba(100, 180, 255, 0.16);
+
+    border-top:
+      1px solid
+      rgba(100, 180, 255, 0.16);
+
+    transform:
+      rotate(45deg);
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE NAV LINKS
+  ------------------------------------------------------- */
+
   .nav-links a {
-    padding: 12px 13px;
+    display: flex;
+
+    align-items: center;
+
+    min-height: 42px;
+
+    padding: 10px 13px;
 
     border-radius: 10px;
 
-    font-size: 0.84rem;
+    color:
+      rgba(220, 233, 248, 0.76);
+
+    font-size: 0.80rem;
+
+    font-weight: 650;
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      padding-left 0.2s ease;
   }
 
-  .nav-links a::after {
-    display: none;
+  .nav-links a:hover {
+    padding-left: 16px;
+
+    color: #ffffff;
+
+    background:
+      rgba(50, 140, 255, 0.08);
   }
 
   .nav-links a.active {
+    color: #ffffff;
+
     background:
       linear-gradient(
         135deg,
-        rgba(50, 140, 255, 0.15),
-        rgba(32, 228, 255, 0.06),
+        rgba(50, 140, 255, 0.16),
+        rgba(32, 228, 255, 0.055),
         rgba(128, 103, 255, 0.12)
       );
   }
+
+
+  /* -------------------------------------------------------
+     HERO
+  ------------------------------------------------------- */
+
+  .hero {
+    padding:
+      calc(var(--nav-height) + 65px)
+      0
+      60px;
+  }
+
+  .hero-content {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .hero-grid {
+    gap: 45px;
+  }
+
+
+  /* -------------------------------------------------------
+     SECTIONS
+  ------------------------------------------------------- */
 
   .section {
     padding: 75px 0;
@@ -2947,19 +3209,13 @@ body:hover .cursor-glow {
 
   .grid-3 {
     grid-template-columns:
-      repeat(
-        2,
-        1fr
-      );
+      repeat(2, 1fr);
   }
 
   .focus-grid,
   .career-grid {
     grid-template-columns:
-      repeat(
-        2,
-        1fr
-      );
+      repeat(2, 1fr);
   }
 
   .skills-layout {
@@ -2979,20 +3235,15 @@ body:hover .cursor-glow {
 
 
 /* =========================================================
-   36. MOBILE — 600PX
+   38. MOBILE — 600PX
 ========================================================= */
 
 @media (max-width: 600px) {
 
   .container,
-  .nav-container,
   .footer-inner {
     width:
       calc(100% - 24px);
-  }
-
-  .navbar {
-    height: 68px;
   }
 
   .nav-container {
@@ -3000,9 +3251,8 @@ body:hover .cursor-glow {
       calc(100% - 26px);
   }
 
-  .logo {
-    padding-left: 2px;
-  }
+
+  /* HERO */
 
   .hero {
     padding:
@@ -3035,7 +3285,7 @@ body:hover .cursor-glow {
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.90rem;
 
     line-height: 1.75;
   }
@@ -3049,6 +3299,9 @@ body:hover .cursor-glow {
   .btn {
     width: 100%;
   }
+
+
+  /* HERO CARD */
 
   .hero-card {
     width: 100%;
@@ -3083,16 +3336,16 @@ body:hover .cursor-glow {
     bottom: 19px;
   }
 
+
+  /* STATS */
+
   .stats {
     padding-bottom: 50px;
   }
 
   .stats-grid {
     grid-template-columns:
-      repeat(
-        2,
-        1fr
-      );
+      repeat(2, 1fr);
   }
 
   .stat {
@@ -3127,6 +3380,9 @@ body:hover .cursor-glow {
     font-size: 0.61rem;
   }
 
+
+  /* SECTIONS */
+
   .section {
     padding: 62px 0;
   }
@@ -3143,6 +3399,9 @@ body:hover .cursor-glow {
     font-size: 0.84rem;
   }
 
+
+  /* GRIDS */
+
   .grid-2,
   .grid-3,
   .grid-4 {
@@ -3154,17 +3413,36 @@ body:hover .cursor-glow {
     grid-template-columns: 1fr;
   }
 
+
+  /* CARDS */
+
   .card {
     padding: 22px;
   }
 
   .focus-card {
-    padding: 22px;
+    padding: 22px 20px;
+
+    border-radius: 18px;
   }
+
+  .focus-card h3 {
+    margin-bottom: 8px;
+  }
+
+  .focus-card p {
+    font-size: 0.80rem;
+  }
+
+
+  /* ABOUT */
 
   .about-panel {
     padding: 23px;
   }
+
+
+  /* EXPERIENCE */
 
   .experience-list::before {
     left: 8px;
@@ -3193,6 +3471,9 @@ body:hover .cursor-glow {
     align-self: flex-start;
   }
 
+
+  /* CONTACT */
+
   .contact-card {
     padding: 30px 21px;
 
@@ -3209,6 +3490,9 @@ body:hover .cursor-glow {
     justify-content: center;
   }
 
+
+  /* CURSOR */
+
   .cursor-glow {
     display: none;
   }
@@ -3216,7 +3500,7 @@ body:hover .cursor-glow {
 
 
 /* =========================================================
-   37. VERY SMALL DEVICES
+   39. VERY SMALL DEVICES
 ========================================================= */
 
 @media (max-width: 380px) {
@@ -3253,7 +3537,7 @@ body:hover .cursor-glow {
 
 
 /* =========================================================
-   38. ACCESSIBILITY / REDUCED MOTION
+   40. ACCESSIBILITY
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -3289,8 +3573,7 @@ body:hover .cursor-glow {
 
 
 /* =========================================================
-   39. SAFETY NET
-   Prevents accidental giant blank sections
+   41. SAFETY NET
 ========================================================= */
 
 section {
@@ -3323,5 +3606,5 @@ section {
 
 
 /* =========================================================
-   END V2.2
+   END V2.3 CSS
 ========================================================= */
