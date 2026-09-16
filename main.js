@@ -1,14 +1,16 @@
 /* =========================================================
-   GOUROB NANDI PORTFOLIO — V2
-   INTERACTION ENGINE
+   GOUROB NANDI PORTFOLIO
+   V2.3 — INTERACTION SCRIPT
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-  "use strict";
 
   /* =======================================================
-     SELECTORS
+     ELEMENTS
   ======================================================= */
+
+  const body =
+    document.body;
 
   const navbar =
     document.querySelector(".navbar");
@@ -19,150 +21,159 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks =
     document.querySelector(".nav-links");
 
-  const cursorGlow =
-    document.querySelector(".cursor-glow");
+  const navItems =
+    document.querySelectorAll(
+      ".nav-links a"
+    );
 
-  const heroCard =
-    document.querySelector(".hero-card");
+  const sections =
+    document.querySelectorAll(
+      "section[id]"
+    );
+
 
   /* =======================================================
-     FOOTER YEAR
+     YEAR
   ======================================================= */
 
-  document
-    .querySelectorAll("[data-year]")
-    .forEach((element) => {
+  const yearElements =
+    document.querySelectorAll(
+      "[data-year]"
+    );
+
+  yearElements.forEach(
+    (element) => {
       element.textContent =
         new Date().getFullYear();
-    });
-
-  /* =======================================================
-     SCROLL PROGRESS
-  ======================================================= */
-
-  const updateScrollProgress = () => {
-    const documentHeight =
-      document.documentElement.scrollHeight -
-      window.innerHeight;
-
-    if (documentHeight <= 0) {
-      document.body.style.setProperty(
-        "--scroll-progress",
-        "0%"
-      );
-
-      return;
     }
-
-    const progress =
-      (window.scrollY /
-        documentHeight) *
-      100;
-
-    document.body.style.setProperty(
-      "--scroll-progress",
-      `${Math.min(progress, 100)}%`
-    );
-  };
-
-  updateScrollProgress();
-
-  window.addEventListener(
-    "scroll",
-    updateScrollProgress,
-    { passive: true }
   );
 
-  /* =======================================================
-     NAVBAR
-  ======================================================= */
-
-  const updateNavbar = () => {
-    if (!navbar) {
-      return;
-    }
-
-    navbar.classList.toggle(
-      "scrolled",
-      window.scrollY > 25
-    );
-  };
-
-  updateNavbar();
-
-  window.addEventListener(
-    "scroll",
-    updateNavbar,
-    { passive: true }
-  );
 
   /* =======================================================
      MOBILE MENU
   ======================================================= */
 
-  if (menuToggle && navLinks) {
+  if (
+    menuToggle &&
+    navLinks
+  ) {
+
     menuToggle.setAttribute(
       "aria-expanded",
       "false"
     );
 
+    menuToggle.setAttribute(
+      "aria-label",
+      "Open navigation menu"
+    );
+
+
+    /* -----------------------------------------------------
+       CLOSE MENU
+    ----------------------------------------------------- */
+
+    const closeMenu = () => {
+
+      navLinks.classList.remove(
+        "open"
+      );
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Open navigation menu"
+      );
+
+      body.classList.remove(
+        "nav-open"
+      );
+    };
+
+
+    /* -----------------------------------------------------
+       OPEN MENU
+    ----------------------------------------------------- */
+
+    const openMenu = () => {
+
+      navLinks.classList.add(
+        "open"
+      );
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Close navigation menu"
+      );
+
+      body.classList.add(
+        "nav-open"
+      );
+    };
+
+
+    /* -----------------------------------------------------
+       TOGGLE
+    ----------------------------------------------------- */
+
     menuToggle.addEventListener(
       "click",
-      () => {
-        const opened =
-          navLinks.classList.toggle(
+      (event) => {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        const isOpen =
+          navLinks.classList.contains(
             "open"
           );
 
-        document.body.classList.toggle(
-          "nav-open",
-          opened
-        );
-
-        menuToggle.setAttribute(
-          "aria-expanded",
-          String(opened)
-        );
-
-        menuToggle.textContent =
-          opened ? "✕" : "☰";
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
       }
     );
 
-    navLinks
-      .querySelectorAll("a")
-      .forEach((link) => {
+
+    /* -----------------------------------------------------
+       CLOSE AFTER NAVIGATION
+    ----------------------------------------------------- */
+
+    navItems.forEach(
+      (link) => {
+
         link.addEventListener(
           "click",
           () => {
-            navLinks.classList.remove(
-              "open"
-            );
 
-            document.body.classList.remove(
-              "nav-open"
-            );
+            closeMenu();
 
-            menuToggle.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-
-            menuToggle.textContent = "☰";
           }
         );
-      });
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       CLICK OUTSIDE
+    ----------------------------------------------------- */
 
     document.addEventListener(
       "click",
       (event) => {
-        if (
-          !navLinks.classList.contains(
-            "open"
-          )
-        ) {
-          return;
-        }
 
         if (
           !navLinks.contains(
@@ -172,52 +183,177 @@ document.addEventListener("DOMContentLoaded", () => {
             event.target
           )
         ) {
-          navLinks.classList.remove(
-            "open"
-          );
 
-          document.body.classList.remove(
-            "nav-open"
-          );
+          closeMenu();
 
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          menuToggle.textContent = "☰";
         }
+
       }
     );
+
+
+    /* -----------------------------------------------------
+       ESCAPE
+    ----------------------------------------------------- */
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeMenu();
+
+        }
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       RESIZE
+    ----------------------------------------------------- */
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        if (
+          window.innerWidth > 800
+        ) {
+
+          closeMenu();
+
+        }
+
+      }
+    );
+
   }
+
+
+  /* =======================================================
+     NAVBAR SCROLL EFFECT
+  ======================================================= */
+
+  const handleNavbar =
+    () => {
+
+      if (!navbar) {
+        return;
+      }
+
+      if (
+        window.scrollY > 30
+      ) {
+
+        navbar.classList.add(
+          "scrolled"
+        );
+
+      } else {
+
+        navbar.classList.remove(
+          "scrolled"
+        );
+
+      }
+
+    };
+
+
+  window.addEventListener(
+    "scroll",
+    handleNavbar,
+    {
+      passive: true
+    }
+  );
+
+  handleNavbar();
+
+
+  /* =======================================================
+     SCROLL PROGRESS
+  ======================================================= */
+
+  const updateProgress =
+    () => {
+
+      const scrollTop =
+        window.scrollY;
+
+      const scrollHeight =
+        document.documentElement
+          .scrollHeight -
+        window.innerHeight;
+
+      if (
+        scrollHeight <= 0
+      ) {
+
+        body.style.setProperty(
+          "--scroll-progress",
+          "0%"
+        );
+
+        return;
+      }
+
+      const progress =
+        (scrollTop /
+          scrollHeight) *
+        100;
+
+      body.style.setProperty(
+        "--scroll-progress",
+        `${Math.min(
+          progress,
+          100
+        )}%`
+      );
+    };
+
+
+  window.addEventListener(
+    "scroll",
+    updateProgress,
+    {
+      passive: true
+    }
+  );
+
+  updateProgress();
+
 
   /* =======================================================
      SMOOTH SCROLL
   ======================================================= */
 
-  document
-    .querySelectorAll(
-      'a[href^="#"]'
-    )
-    .forEach((link) => {
+  navItems.forEach(
+    (link) => {
+
       link.addEventListener(
         "click",
         (event) => {
-          const targetId =
+
+          const href =
             link.getAttribute(
               "href"
             );
 
           if (
-            !targetId ||
-            targetId === "#"
+            !href ||
+            !href.startsWith("#")
           ) {
             return;
           }
 
           const target =
             document.querySelector(
-              targetId
+              href
             );
 
           if (!target) {
@@ -226,29 +362,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
           event.preventDefault();
 
-          const offset =
-            navbar
-              ? navbar.offsetHeight + 10
-              : 85;
-
-          const targetPosition =
-            target.getBoundingClientRect()
-              .top +
-            window.scrollY -
-            offset;
-
-          window.scrollTo({
-            top: targetPosition,
+          target.scrollIntoView({
             behavior: "smooth",
+            block: "start"
           });
+
+          /*
+           * Update URL without causing
+           * a second jump.
+           */
+
+          try {
+
+            history.replaceState(
+              null,
+              "",
+              href
+            );
+
+          } catch (error) {
+
+            /* Ignore */
+
+          }
+
         }
       );
-    });
+
+    }
+  );
+
 
   /* =======================================================
      REVEAL ANIMATIONS
      
-     Content remains visible if JS fails.
+     IMPORTANT:
+     Elements are visible by default.
+     JS adds animation only after
+     the script successfully loads.
   ======================================================= */
 
   const revealElements =
@@ -256,219 +407,178 @@ document.addEventListener("DOMContentLoaded", () => {
       ".reveal"
     );
 
-  const reducedMotion =
-    window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
 
   if (
-    revealElements.length &&
-    !reducedMotion
+    "IntersectionObserver" in window &&
+    revealElements.length > 0
   ) {
+
     revealElements.forEach(
       (element) => {
+
         element.classList.add(
           "animate-ready"
         );
+
       }
     );
 
-    if (
-      "IntersectionObserver" in
-      window
-    ) {
-      const revealObserver =
-        new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach(
-              (entry) => {
-                if (
-                  !entry.isIntersecting
-                ) {
-                  return;
-                }
+
+    const revealObserver =
+      new IntersectionObserver(
+        (entries) => {
+
+          entries.forEach(
+            (entry) => {
+
+              if (
+                entry.isIntersecting
+              ) {
 
                 entry.target.classList.add(
                   "visible"
                 );
 
-                observer.unobserve(
+                revealObserver.unobserve(
                   entry.target
                 );
-              }
-            );
-          },
-          {
-            threshold: 0.08,
 
-            rootMargin:
-              "0px 0px -45px 0px",
-          }
+              }
+
+            }
+          );
+
+        },
+        {
+          threshold: 0.10,
+
+          rootMargin:
+            "0px 0px -45px 0px"
+        }
+      );
+
+
+    revealElements.forEach(
+      (element) => {
+
+        revealObserver.observe(
+          element
         );
 
-      revealElements.forEach(
-        (element) => {
-          revealObserver.observe(
-            element
-          );
-        }
-      );
-    } else {
-      revealElements.forEach(
-        (element) => {
-          element.classList.add(
-            "visible"
-          );
-        }
-      );
-    }
+      }
+    );
+
+  } else {
+
+    revealElements.forEach(
+      (element) => {
+
+        element.classList.add(
+          "visible"
+        );
+
+      }
+    );
+
   }
+
 
   /* =======================================================
      ACTIVE NAVIGATION
   ======================================================= */
 
-  const sections =
-    document.querySelectorAll(
-      "section[id]"
-    );
-
-  const navigationItems =
-    document.querySelectorAll(
-      '.nav-links a[href^="#"]'
-    );
-
   if (
-    sections.length &&
-    navigationItems.length &&
-    "IntersectionObserver" in
-      window
+    sections.length > 0 &&
+    navItems.length > 0
   ) {
-    const navObserver =
+
+    const activeObserver =
       new IntersectionObserver(
         (entries) => {
+
           entries.forEach(
             (entry) => {
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
 
-              const id =
-                entry.target.getAttribute(
-                  "id"
+              if (
+                entry.isIntersecting
+              ) {
+
+                const id =
+                  entry.target.id;
+
+                navItems.forEach(
+                  (link) => {
+
+                    const href =
+                      link.getAttribute(
+                        "href"
+                      );
+
+                    link.classList.toggle(
+                      "active",
+                      href === `#${id}`
+                    );
+
+                  }
                 );
 
-              navigationItems.forEach(
-                (link) => {
-                  link.classList.toggle(
-                    "active",
-                    link.getAttribute(
-                      "href"
-                    ) === `#${id}`
-                  );
-                }
-              );
+              }
+
             }
           );
+
         },
         {
-          threshold: 0.1,
-
           rootMargin:
-            "-20% 0px -65% 0px",
+            "-25% 0px -65% 0px",
+
+          threshold: 0
         }
       );
 
+
     sections.forEach(
       (section) => {
-        navObserver.observe(
+
+        activeObserver.observe(
           section
         );
+
       }
     );
+
   }
 
+
   /* =======================================================
-     HERO 3D TILT
+     HERO CARD TILT
+     DESKTOP / POINTER DEVICES ONLY
   ======================================================= */
 
-  const desktopPointer =
+  const tiltCards =
+    document.querySelectorAll(
+      ".hero-card"
+    );
+
+
+  const supportsHover =
     window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
+      "(hover: hover)"
     ).matches;
 
-  if (
-    heroCard &&
-    desktopPointer &&
-    !reducedMotion
-  ) {
-    heroCard.addEventListener(
-      "mousemove",
-      (event) => {
-        const rect =
-          heroCard.getBoundingClientRect();
-
-        const x =
-          event.clientX -
-          rect.left;
-
-        const y =
-          event.clientY -
-          rect.top;
-
-        const centerX =
-          rect.width / 2;
-
-        const centerY =
-          rect.height / 2;
-
-        const rotateY =
-          ((x - centerX) /
-            centerX) *
-          6;
-
-        const rotateX =
-          ((centerY - y) /
-            centerY) *
-          6;
-
-        heroCard.style.transform =
-          `
-          perspective(1200px)
-          rotateX(${rotateX}deg)
-          rotateY(${rotateY}deg)
-          translateY(-5px)
-          `;
-      }
-    );
-
-    heroCard.addEventListener(
-      "mouseleave",
-      () => {
-        heroCard.style.transform =
-          "";
-      }
-    );
-  }
-
-  /* =======================================================
-     CARD MICRO INTERACTION
-  ======================================================= */
 
   if (
-    desktopPointer &&
-    !reducedMotion
+    supportsHover &&
+    tiltCards.length > 0
   ) {
-    document
-      .querySelectorAll(
-        ".card"
-      )
-      .forEach((card) => {
+
+    tiltCards.forEach(
+      (card) => {
+
         card.addEventListener(
           "mousemove",
           (event) => {
+
             const rect =
               card.getBoundingClientRect();
 
@@ -481,87 +591,108 @@ document.addEventListener("DOMContentLoaded", () => {
               rect.top;
 
             const rotateX =
-              ((y -
-                rect.height / 2) /
-                rect.height) *
-              -2.5;
+              ((y /
+                rect.height) -
+                0.5) *
+              -5;
 
             const rotateY =
-              ((x -
-                rect.width / 2) /
-                rect.width) *
-              2.5;
+              ((x /
+                rect.width) -
+                0.5) *
+              5;
 
             card.style.transform =
-              `
-              perspective(1000px)
-              rotateX(${rotateX}deg)
-              rotateY(${rotateY}deg)
-              translateY(-7px)
-              `;
+              `perspective(1200px)
+               rotateX(${rotateX}deg)
+               rotateY(${rotateY}deg)`;
           }
         );
+
 
         card.addEventListener(
           "mouseleave",
           () => {
+
             card.style.transform =
               "";
+
           }
         );
-      });
+
+      }
+    );
+
   }
+
 
   /* =======================================================
      CURSOR GLOW
   ======================================================= */
 
+  const cursorGlow =
+    document.querySelector(
+      ".cursor-glow"
+    );
+
+
   if (
     cursorGlow &&
-    desktopPointer &&
-    !reducedMotion
+    supportsHover
   ) {
+
     let mouseX = 0;
     let mouseY = 0;
 
-    let currentX = 0;
-    let currentY = 0;
+    let glowX = 0;
+    let glowY = 0;
+
 
     document.addEventListener(
       "mousemove",
       (event) => {
+
         mouseX =
           event.clientX;
 
         mouseY =
           event.clientY;
+
       },
-      { passive: true }
+      {
+        passive: true
+      }
     );
 
-    const animateCursor =
+
+    const animateGlow =
       () => {
-        currentX +=
-          (mouseX - currentX) *
-          0.11;
 
-        currentY +=
-          (mouseY - currentY) *
-          0.11;
+        glowX +=
+          (mouseX - glowX) *
+          0.09;
 
-        cursorGlow.style.left =
-          `${currentX}px`;
+        glowY +=
+          (mouseY - glowY) *
+          0.09;
 
-        cursorGlow.style.top =
-          `${currentY}px`;
+        cursorGlow.style.transform =
+          `translate(
+            ${glowX}px,
+            ${glowY}px
+          ) translate(-50%, -50%)`;
 
         requestAnimationFrame(
-          animateCursor
+          animateGlow
         );
+
       };
 
-    animateCursor();
+
+    animateGlow();
+
   }
+
 
   /* =======================================================
      EXTERNAL LINKS
@@ -569,116 +700,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .querySelectorAll(
-      'a[href^="http"]'
+      'a[target="_blank"]'
     )
-    .forEach((link) => {
-      link.setAttribute(
-        "target",
-        "_blank"
-      );
+    .forEach(
+      (link) => {
 
-      link.setAttribute(
-        "rel",
-        "noopener noreferrer"
-      );
-    });
+        link.setAttribute(
+          "rel",
+          "noopener noreferrer"
+        );
+
+      }
+    );
+
 
   /* =======================================================
-     CLOSE MENU ON ESCAPE
+     CLOSE MOBILE MENU ON ORIENTATION CHANGE
   ======================================================= */
 
-  document.addEventListener(
-    "keydown",
-    (event) => {
-      if (
-        event.key !== "Escape"
-      ) {
-        return;
-      }
+  window.addEventListener(
+    "orientationchange",
+    () => {
 
       if (
-        navLinks &&
-        navLinks.classList.contains(
-          "open"
-        )
+        window.innerWidth > 800 &&
+        navLinks
       ) {
+
         navLinks.classList.remove(
           "open"
         );
 
-        document.body.classList.remove(
+        body.classList.remove(
           "nav-open"
         );
 
-        if (menuToggle) {
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          menuToggle.textContent =
-            "☰";
-        }
       }
+
     }
   );
 
-  /* =======================================================
-     RESIZE
-  ======================================================= */
-
-  let resizeTimer;
-
-  window.addEventListener(
-    "resize",
-    () => {
-      clearTimeout(
-        resizeTimer
-      );
-
-      resizeTimer =
-        setTimeout(() => {
-          if (
-            window.innerWidth >
-              800 &&
-            navLinks &&
-            menuToggle
-          ) {
-            navLinks.classList.remove(
-              "open"
-            );
-
-            document.body.classList.remove(
-              "nav-open"
-            );
-
-            menuToggle.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-
-            menuToggle.textContent =
-              "☰";
-          }
-
-          if (heroCard) {
-            heroCard.style.transform =
-              "";
-          }
-        }, 150);
-    },
-    { passive: true }
-  );
 
   /* =======================================================
-     READY
+     PAGE LOADED
   ======================================================= */
 
-  document.body.classList.add(
-    "js-loaded"
+  body.classList.add(
+    "loaded"
   );
 
-  console.log(
-    "Gourob Nandi Portfolio V2 loaded."
+
+  /* =======================================================
+     DEBUG MARKER
+     Useful for confirming JS loaded.
+  ======================================================= */
+
+  body.setAttribute(
+    "data-js",
+    "loaded"
   );
+
 });
