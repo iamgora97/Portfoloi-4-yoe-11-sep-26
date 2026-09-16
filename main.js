@@ -1,75 +1,168 @@
 /* =========================================================
-   GOUROB NANDI PORTFOLIO
-   script.js
+   GOUROB NANDI — INTERACTIVE PORTFOLIO JS
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* =======================================================
-     MOBILE NAVIGATION
-  ======================================================= */
-
+  const navbar = document.querySelector(".navbar");
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
-
-  if (menuToggle && navMenu) {
-
-    menuToggle.addEventListener("click", () => {
-
-      navMenu.classList.toggle("active");
-
-      const isOpen = navMenu.classList.contains("active");
-
-      menuToggle.textContent = isOpen ? "✕" : "☰";
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        isOpen ? "true" : "false"
-      );
-
-    });
-
-
-    /* Close menu after clicking a navigation link */
-
-    const navLinks = navMenu.querySelectorAll("a");
-
-    navLinks.forEach(link => {
-
-      link.addEventListener("click", () => {
-
-        navMenu.classList.remove("active");
-
-        menuToggle.textContent = "☰";
-
-        menuToggle.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-      });
-
-    });
-
-  }
-
+  const navLinks = document.querySelectorAll("#navMenu a");
+  const sections = document.querySelectorAll("main section[id]");
+  const year = document.getElementById("currentYear");
 
   /* =======================================================
      CURRENT YEAR
   ======================================================= */
 
-  const currentYear = document.getElementById("currentYear");
-
-  if (currentYear) {
-    currentYear.textContent = new Date().getFullYear();
+  if (year) {
+    year.textContent = new Date().getFullYear();
   }
 
+  /* =======================================================
+     MOBILE MENU
+  ======================================================= */
+
+  const closeMenu = () => {
+    if (!navMenu || !menuToggle) return;
+
+    navMenu.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+  };
+
+  const openMenu = () => {
+    if (!navMenu || !menuToggle) return;
+
+    navMenu.classList.add("open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.textContent = "✕";
+  };
+
+  if (menuToggle && navMenu) {
+    menuToggle.setAttribute("aria-expanded", "false");
+
+    menuToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      if (navMenu.classList.contains("open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (
+        navMenu.classList.contains("open") &&
+        !navMenu.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  }
+
+  /* =======================================================
+     NAVBAR SCROLL EFFECT
+  ======================================================= */
+
+  const updateNavbar = () => {
+    if (!navbar) return;
+
+    if (window.scrollY > 30) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  };
+
+  updateNavbar();
+
+  window.addEventListener(
+    "scroll",
+    updateNavbar,
+    { passive: true }
+  );
+
+  /* =======================================================
+     ACTIVE NAVIGATION
+  ======================================================= */
+
+  const updateActiveNav = () => {
+    if (!sections.length) return;
+
+    const scrollPosition = window.scrollY + 180;
+    let currentId = "";
+
+    sections.forEach((section) => {
+      if (scrollPosition >= section.offsetTop) {
+        currentId = section.id;
+      }
+    });
+
+    navLinks.forEach((link) => {
+      const isActive =
+        link.getAttribute("href") === `#${currentId}`;
+
+      link.classList.toggle("active", isActive);
+    });
+  };
+
+  updateActiveNav();
+
+  window.addEventListener(
+    "scroll",
+    updateActiveNav,
+    { passive: true }
+  );
+
+  /* =======================================================
+     SMOOTH SCROLL
+  ======================================================= */
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const id = link.getAttribute("href");
+
+      if (!id || id === "#") return;
+
+      const target = document.querySelector(id);
+
+      if (!target) return;
+
+      event.preventDefault();
+
+      const navbarHeight =
+        navbar ? navbar.offsetHeight : 0;
+
+      const targetTop =
+        target.getBoundingClientRect().top +
+        window.scrollY -
+        navbarHeight -
+        10;
+
+      window.scrollTo({
+        top: targetTop,
+        behavior: "smooth"
+      });
+    });
+  });
 
   /* =======================================================
      SCROLL REVEAL
   ======================================================= */
 
-  const revealElements = document.querySelectorAll(
+  const revealItems = document.querySelectorAll(
     ".stat-card, " +
     ".focus-card, " +
     ".expertise-card, " +
@@ -84,469 +177,142 @@ document.addEventListener("DOMContentLoaded", () => {
     ".contact-link"
   );
 
-
-  /* Add reveal class */
-
-  revealElements.forEach(element => {
+  revealItems.forEach((element, index) => {
     element.classList.add("reveal");
+
+    element.style.transitionDelay =
+      `${Math.min(index % 6, 5) * 60}ms`;
   });
-
-
-  /* Intersection Observer */
 
   if ("IntersectionObserver" in window) {
-
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-
-        entries.forEach(entry => {
-
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-
             entry.target.classList.add("visible");
-
-            observer.unobserve(entry.target);
-
+            obs.unobserve(entry.target);
           }
-
         });
-
       },
       {
-        threshold: 0.08,
-        rootMargin: "0px 0px -30px 0px"
+        threshold: 0.10,
+        rootMargin: "0px 0px -40px 0px"
       }
     );
 
-
-    revealElements.forEach(element => {
-      revealObserver.observe(element);
+    revealItems.forEach((element) => {
+      observer.observe(element);
     });
-
   } else {
-
-    /* Fallback for older browsers */
-
-    revealElements.forEach(element => {
+    revealItems.forEach((element) => {
       element.classList.add("visible");
     });
-
   }
 
-
   /* =======================================================
-     ACTIVE NAVIGATION
+     INTERACTIVE 3D CARD EFFECT
   ======================================================= */
 
-  const sections = document.querySelectorAll(
-    "main section[id]"
-  );
-
-  const navigationLinks = document.querySelectorAll(
-    "#navMenu a"
-  );
-
-
-  function updateActiveNavigation() {
-
-    let currentSection = "";
-
-    const scrollPosition =
-      window.scrollY + 160;
-
-
-    sections.forEach(section => {
-
-      const sectionTop = section.offsetTop;
-
-      const sectionBottom =
-        sectionTop + section.offsetHeight;
-
-
-      if (
-        scrollPosition >= sectionTop &&
-        scrollPosition < sectionBottom
-      ) {
-
-        currentSection =
-          section.getAttribute("id");
-
-      }
-
-    });
-
-
-    navigationLinks.forEach(link => {
-
-      const href =
-        link.getAttribute("href");
-
-
-      link.classList.remove("active");
-
-
-      if (
-        href === `#${currentSection}`
-      ) {
-
-        link.classList.add("active");
-
-      }
-
-    });
-
-  }
-
-
-  window.addEventListener(
-    "scroll",
-    updateActiveNavigation,
-    {
-      passive: true
-    }
-  );
-
-
-  updateActiveNavigation();
-
-
-  /* =======================================================
-     SMOOTH SCROLL
-  ======================================================= */
-
-  const anchorLinks =
-    document.querySelectorAll(
-      'a[href^="#"]'
-    );
-
-
-  anchorLinks.forEach(anchor => {
-
-    anchor.addEventListener(
-      "click",
-      event => {
-
-        const targetId =
-          anchor.getAttribute("href");
-
-
-        if (
-          !targetId ||
-          targetId === "#"
-        ) {
-          return;
-        }
-
-
-        const target =
-          document.querySelector(targetId);
-
-
-        if (!target) {
-          return;
-        }
-
-
-        event.preventDefault();
-
-
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
-
-      }
-    );
-
-  });
-
-
-  /* =======================================================
-     NAVBAR SHADOW ON SCROLL
-  ======================================================= */
-
-  const navbar =
-    document.querySelector(".navbar");
-
-
-  function updateNavbar() {
-
-    if (!navbar) {
-      return;
-    }
-
-
-    if (window.scrollY > 20) {
-
-      navbar.style.boxShadow =
-        "0 8px 30px rgba(15, 23, 42, 0.06)";
-
-    } else {
-
-      navbar.style.boxShadow =
-        "none";
-
-    }
-
-  }
-
-
-  window.addEventListener(
-    "scroll",
-    updateNavbar,
-    {
-      passive: true
-    }
-  );
-
-
-  updateNavbar();
-
-
-  /* =======================================================
-     CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
-  ======================================================= */
-
-  document.addEventListener(
-    "click",
-    event => {
-
-      if (!menuToggle || !navMenu) {
-        return;
-      }
-
-
-      const clickedInsideNav =
-        navMenu.contains(event.target);
-
-
-      const clickedMenuButton =
-        menuToggle.contains(event.target);
-
-
-      if (
-        !clickedInsideNav &&
-        !clickedMenuButton &&
-        navMenu.classList.contains("active")
-      ) {
-
-        navMenu.classList.remove("active");
-
-        menuToggle.textContent = "☰";
-
-        menuToggle.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     ESCAPE KEY — CLOSE MOBILE MENU
-  ======================================================= */
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Escape" &&
-        navMenu &&
-        navMenu.classList.contains("active")
-      ) {
-
-        navMenu.classList.remove("active");
-
-        if (menuToggle) {
-
-          menuToggle.textContent = "☰";
-
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          menuToggle.focus();
-
-        }
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     CARD HOVER EFFECT
-     Desktop only
-  ======================================================= */
-
-  const hoverCards = document.querySelectorAll(
+  const tiltCards = document.querySelectorAll(
+    ".hero-card, " +
     ".expertise-card, " +
-    ".focus-card, " +
-    ".work-card, " +
     ".achievement-card, " +
-    ".certification-card, " +
-    ".learning-card"
+    ".certification-card"
   );
 
-
-  if (
+  const supportsHover =
     window.matchMedia &&
-    window.matchMedia("(hover: hover)").matches
-  ) {
+    window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    ).matches;
 
-    hoverCards.forEach(card => {
+  if (supportsHover) {
+    tiltCards.forEach((card) => {
+      card.addEventListener("mousemove", (event) => {
+        const rect = card.getBoundingClientRect();
 
-      card.addEventListener(
-        "mouseenter",
-        () => {
-          card.classList.add("is-hovered");
-        }
-      );
+        const x =
+          event.clientX - rect.left;
 
+        const y =
+          event.clientY - rect.top;
 
-      card.addEventListener(
-        "mouseleave",
-        () => {
-          card.classList.remove("is-hovered");
-        }
-      );
+        const rotateX =
+          ((y / rect.height) - 0.5) * -5;
 
+        const rotateY =
+          ((x / rect.width) - 0.5) * 5;
+
+        card.style.transform =
+          `perspective(900px)
+           rotateX(${rotateX}deg)
+           rotateY(${rotateY}deg)
+           translateY(-7px)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "";
+      });
     });
-
   }
 
-
   /* =======================================================
-     PAGE LOAD
+     DESKTOP CURSOR GLOW
   ======================================================= */
 
-  window.addEventListener(
-    "load",
-    () => {
+  if (supportsHover) {
+    const glow = document.createElement("div");
 
-      document.body.classList.add("loaded");
+    glow.className = "cursor-glow";
 
-      /* Make sure hero is immediately visible */
+    document.body.appendChild(glow);
 
-      const hero =
-        document.querySelector(".hero");
+    let glowVisible = false;
 
-      if (hero) {
-        hero.classList.add("visible");
+    window.addEventListener("mousemove", (event) => {
+      glow.style.left = `${event.clientX}px`;
+      glow.style.top = `${event.clientY}px`;
+
+      if (!glowVisible) {
+        glow.style.opacity = "1";
+        glowVisible = true;
       }
+    });
 
-    }
-  );
-
-
-  /* =======================================================
-     RESIZE HANDLING
-  ======================================================= */
-
-  let resizeTimer;
-
-
-  window.addEventListener(
-    "resize",
-    () => {
-
-      clearTimeout(resizeTimer);
-
-
-      resizeTimer = setTimeout(
-        () => {
-
-          /*
-             If desktop width is restored while the
-             mobile menu is open, close the menu.
-          */
-
-          if (
-            window.innerWidth > 800 &&
-            navMenu
-          ) {
-
-            navMenu.classList.remove(
-              "active"
-            );
-
-            if (menuToggle) {
-
-              menuToggle.textContent =
-                "☰";
-
-              menuToggle.setAttribute(
-                "aria-expanded",
-                "false"
-              );
-
-            }
-
-          }
-
-
-          updateActiveNavigation();
-
-        },
-        150
-      );
-
-    }
-  );
-
+    document.addEventListener("mouseleave", () => {
+      glow.style.opacity = "0";
+      glowVisible = false;
+    });
+  }
 
   /* =======================================================
      EXTERNAL LINKS
   ======================================================= */
 
-  const externalLinks =
-    document.querySelectorAll(
-      'a[target="_blank"]'
-    );
-
-
-  externalLinks.forEach(link => {
-
-    /*
-      Security improvement for links opening
-      in a new browser tab.
-    */
-
-    const existingRel =
-      link.getAttribute("rel");
-
-
-    if (!existingRel) {
-
+  document
+    .querySelectorAll('a[target="_blank"]')
+    .forEach((link) => {
       link.setAttribute(
         "rel",
         "noopener noreferrer"
       );
-
-    }
-
-  });
-
+    });
 
   /* =======================================================
-     CONSOLE MESSAGE
+     DESKTOP RESIZE
   ======================================================= */
 
-  console.log(
-    "%cGourob Nandi Portfolio",
-    "font-size:18px;font-weight:800;"
-  );
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 800) {
+      closeMenu();
+    }
+  });
 
-  console.log(
-    "%cSenior Software Test Engineer | AI/ML QA & Automation Specialist",
-    "font-size:12px;"
-  );
+  /* =======================================================
+     PAGE LOADED
+  ======================================================= */
 
+  window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+  });
 });
